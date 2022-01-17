@@ -1,0 +1,62 @@
+.pinyin-app {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.pinyin-app pre {
+  padding: 15px;
+  background: #efefef;
+  border-radius: 4px;
+  min-height: 80px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.pinyin-app textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+}
+
+.radio-group {
+  display: inline-block;
+}
+.radio-group .radio-item {
+  display: inline-block;
+  cursor: pointer;
+}
+.radio-group .radio-item .radio-item-label {
+  display: inline-block;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.radio-group .radio-item + .radio-item {
+  margin-left: 10px;
+}
+
+.mode-config {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.mode-config-link {
+  cursor: pointer;
+  transform: color ease 0.2s;
+}
+.mode-config-link:hover {
+  color: #2d76f6;
+}
+
+.preview {
+  position: relative;
+}
+.copy-result {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
