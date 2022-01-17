@@ -69,3 +69,23 @@ export const BlankOptions = [
 export const trimAllBlank = (str, replacement) => {
   return str.replace(/\s+/g, replacement);
 };
+
+export const timeHashShortString = () => (new Date().getTime()).toString(32)
+
+export const storageKey = 'gspinyin'
+
+export const setItem = (key, value) => {
+  if (key === undefined || key === null) return
+  let v = value
+  if (typeof v === 'object') v = JSON.stringify(v)
+  localStorage.setItem(key, v)
+}
+
+export const getItem = (key) => {
+  if (key === undefined) return
+  let data = localStorage.getItem(key)
+  if (typeof data === 'string' && data.includes('{')) {
+    return JSON.parse(data)
+  }
+  return data
+}

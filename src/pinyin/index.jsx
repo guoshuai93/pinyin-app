@@ -5,8 +5,10 @@ import {
   PinyinOuputOptions,
   SeporatorOptions,
   SeporatorConfig,
-  BlankOptions,
-  trimAllBlank,
+  storageKey,
+  setItem,
+  getItem,
+  timeHashShortString,
 } from "./util";
 import "./index.css";
 
@@ -15,22 +17,22 @@ const Example = () => {
   const [styleOption, setStyleOption] = useState("STYLE_NORMAL");
   const [seporator, setSeporator] = useState("BLANK");
   const [result, setResult] = useState("");
-  const [mode, setMode] = useState("");
-  const [keepBlank, setKeepBlank] = useState("1");
+  const [mode, setMode] = useState("normal");
   const [copyed, setCopyed] = useState(false);
 
   useEffect(() => {
-    const search = location.search;
-    if (search.includes("url")) {
-      setMode("url");
-      handleUrlStyle();
+    const mode = getItem(storageKey);
+    if (mode && ["normal", "url"].includes(mode)) {
+      setMode(mode);
+    } else {
+      setItem(storageKey, "mormal");
     }
+    if (mode === "url") handleUrlStyle();
   }, []);
 
   useEffect(() => {
     let seporatorCont = SeporatorConfig[seporator];
-    let inputText =
-      keepBlank === "1" ? trimAllBlank(input, seporatorCont) : input;
+    let inputText = input;
     if (inputText === "") {
       setResult("");
       return;
@@ -39,21 +41,18 @@ const Example = () => {
     const strArr = pinyin(inputText, {
       style: pinyin[styleOption],
     });
-    console.log(strArr);
     let str = strArr.reduce((acc, cur, curIndex) => {
       return acc.concat((curIndex !== 0 ? seporatorCont : "") + cur[0]);
     }, "");
+    if (mode === "url") str += seporatorCont + timeHashShortString();
     setResult(str);
-  }, [input, styleOption, seporator, keepBlank]);
+  }, [input, styleOption, seporator, mode]);
 
   const toggleMode = () => {
-    setMode((s) => (s === "" ? "url" : ""));
-    if (mode === "") {
-      location.search = "?url";
-      handleUrlStyle();
-    } else {
-      location.search = "";
-    }
+    let newMode = mode === "normal" ? "url" : "normal";
+    setMode(newMode);
+    setItem(storageKey, newMode);
+    if (newMode === "url") handleUrlStyle();
   };
 
   const handleUrlStyle = () => {
@@ -80,12 +79,14 @@ const Example = () => {
     <div className="pinyin-app">
       <textarea
         className="input"
+        placeholder="请输入内容"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
       <div>
         <h4>输出</h4>
         <RadioGroup
+          disabled={mode === "url"}
           data={PinyinOuputOptions}
           value={styleOption}
           onChange={setStyleOption}
@@ -94,18 +95,10 @@ const Example = () => {
       <div>
         <h4>分割符号</h4>
         <RadioGroup
+          disabled={mode === "url"}
           data={SeporatorOptions}
           value={seporator}
           onChange={setSeporator}
-        />
-      </div>
-      <div>
-        <h4>处理输入空格</h4>
-        <RadioGroup
-          disabled={mode === "url"}
-          data={BlankOptions}
-          value={keepBlank}
-          onChange={setKeepBlank}
         />
       </div>
       <div className="preview">
@@ -117,7 +110,7 @@ const Example = () => {
       <div className="mode-config">
         切换模式：
         <a className="mode-config-link" onClick={toggleMode}>
-          {mode === "" ? "默认" : "拼音链接"}
+          {mode === "normal" ? "默认" : "拼音链接"}
         </a>
       </div>
     </div>

@@ -17,27 +17,40 @@
   min-height: 80px;
   resize: vertical;
 }
-
+.pinyin-app h4 {
+  margin: 10px;
+}
 .input {
   width: 100%;
   padding: 10px;
 }
 
+input[type="radio"] {
+  margin: 0;
+}
+
+input[type="radio"]:disabled,
+input[type="radio"]:disabled + label {
+  cursor: not-allowed;
+}
+
 .radio-group {
   display: inline-block;
+  margin: 10px;
 }
 .radio-group .radio-item {
   display: inline-block;
   cursor: pointer;
+  margin-bottom: 6px;
 }
-.radio-group .radio-item .radio-item-label {
+.radio-item .radio-item-label {
   display: inline-block;
   padding: 0 6px;
   cursor: pointer;
 }
 
-.radio-group .radio-item + .radio-item {
-  margin-left: 10px;
+.radio-group .radio-item:not(:last-child) {
+  margin-right: 10px;
 }
 
 .mode-config {
