@@ -10,6 +10,7 @@ import {
   getItem,
   timeHashShortString,
 } from "./util";
+import Test from './test'
 import "./index.css";
 
 const Example = () => {
@@ -113,6 +114,7 @@ const Example = () => {
           {mode === "normal" ? "默认" : "拼音链接"}
         </a>
       </div>
+      <Test />
     </div>
   );
 };
