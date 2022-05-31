@@ -32,6 +32,11 @@ const Test = () => {
     console.log("isIframe", isIframe);
   }, []);
 
+  useEffect(() => {
+    const aaa = getParentUrl();
+    console.log("url", aaa);
+  }, []);
+
   return <div>test</div>;
 };
 
